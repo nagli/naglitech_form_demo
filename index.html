@@ -26,7 +26,7 @@
         </div>
         <div class="row">
             <div class="col-2">
-                <p>This is a demo form. You can use the form to see the feature and submit the form. The submitted data will be saved into an database.<br>The form is using Bootstrap 4 to format the form. It is using the bootstrap grid layout and special formated from elements.</p>
+                <p>This is a demo form. You can use the form to submit data to the server. The submitted data is saved into a database.<br><br>The form is using Bootstrap 4 to format the form. It is using the bootstrap grid layout and special formated form elements.<br><br>You can check out the code behind the form demo on github using this link: <a href="https://github.com/nagli/naglitech_form_demo">Form Demo Code</a></p>
             </div>
             <div class="col-10"><!--Form container-->
             <form name="frmDemo" action="./formHandler.php" method="POST" class="needs-validation" novalidate>
@@ -100,39 +100,23 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="txtPassword">Password</label>
-                        <input type="password" id="txtPassword" name="txtPassword" class="form-control" aria-describedby="passwordHelpBlock">
+                        <input type="password" id="txtPassword" name="txtPassword" class="form-control" aria-describedby="passwordHelpBlock" required>
                         <small id="passwordHelpBlock" class="form-text text-muted">
                             Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
                         </small>
-                    
-                    
-                    
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="spanPass1">Password</span>
-                            </div>
-                            <input type="password" class="form-control" aria-label="Password" aria-describedby="spanPass1" id="txtPassword" name="txtPassword" required data-toggle="tooltip" data-placement="top" title="Password must be at least 6 char long">
-                            <div class="invalid-feedback">
-                                Please provide a password.
-                            </div>
-                        </div>
                     </div>
                     <div class="form-group col-md-6">
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="spanPass2">Re-type Password</span>
-                            </div>
-                            <input type="password" class="form-control" aria-label="Password" aria-describedby="spanPass2" id="txtPassword2" name="txtPassword2" required>
-                            <div class="invalid-feedback">
-                                Please re-type the password.
-                            </div>
-                        </div>    
+                        <label for="txtPassword2">Re-type Password</label>
+                        <input type="password" id="txtPassword2" class="form-control" aria-describedby="passwordHelpBlock2" required>
+                        <small id="passwordHelpBlock2" class="form-text text-muted">
+                            Must match the password
+                        </small>
                     </div>    
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-12">
                         <div class="form-check form-check-inline">
-                          <input class="form-check-input" type="radio" name="rdoFruit" id="rdoApple" value="apple">
+                          <input class="form-check-input" type="radio" name="rdoFruit" id="rdoApple" value="apple" checked>
                           <label class="form-check-label" for="rdoApple">Apple</label>
                         </div>
                         <div class="form-check form-check-inline">
@@ -159,7 +143,7 @@
                 <div class="form-row">
                     <div class="form-group col-md-12">
                         <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="chkCookie" name="chkCookie" value="cookie">
+                            <input type="checkbox" class="custom-control-input" id="chkCookie" name="chkCookie" value="1">
                             <label class="custom-control-label" for="chkCookie">Allow the use of cookie by this site</label>
                         </div>
                     </div>
@@ -188,7 +172,7 @@
             // Loop over them and prevent submission
             var validation = Array.prototype.filter.call(forms, function(form) {
               form.addEventListener('submit', function(event) {
-                if (form.checkValidity() === false) {
+                if (form.checkValidity() === false || checkPassword() === false) {
                   event.preventDefault();
                   event.stopPropagation();
                 }
@@ -199,7 +183,27 @@
         })();
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
-        })
+        });
+        function checkPassword()
+        {
+            
+            if ($('#txtPassword').val().length < 8) {
+                alert("The password must at least 8 charactars long");
+                $('#txtPassword').focus();
+                return false;
+            }
+            if ($('#txtPassword').val().length > 20) {
+                alert("The password can only be 20 charactars long");
+                $('#txtPassword').focus();
+                return false;
+            }
+            if ($('#txtPassword').val() !== $('#txtPassword2').val()) {
+                alert("The re-typed password does not match the password");
+                $('#txtPassword2').focus();
+                return false;
+            }
+            return true;    
+        }
 </script>  
 </body>
 </html>
